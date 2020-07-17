@@ -37,10 +37,10 @@ export async function createProperty(
 
 export async function patchProperty(
   idToken: string,
-  todoId: string,
-  updatedTodo: UpdateTodoRequest
+  propertyId: string,
+  updatedProperty: UpdateTodoRequest
 ): Promise<void> {
-  await Axios.patch(`${apiEndpoint}/todos/${todoId}`, JSON.stringify(updatedTodo), {
+  await Axios.patch(`${apiEndpoint}/todos/${propertyId}`, JSON.stringify(updatedProperty), {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
@@ -50,9 +50,9 @@ export async function patchProperty(
 
 export async function deleteProperty(
   idToken: string,
-  todoId: string
+  propertyId: string
 ): Promise<void> {
-  await Axios.delete(`${apiEndpoint}/todos/${todoId}`, {
+  await Axios.delete(`${apiEndpoint}/properties/${propertyId}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
@@ -62,9 +62,9 @@ export async function deleteProperty(
 
 export async function getUploadUrl(
   idToken: string,
-  todoId: string
+  propertyId: string
 ): Promise<string> {
-  const response = await Axios.post(`${apiEndpoint}/todos/${todoId}/attachment`, '', {
+  const response = await Axios.post(`${apiEndpoint}/properties/${propertyId}/attachment`, '', {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`

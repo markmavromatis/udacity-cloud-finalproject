@@ -2,14 +2,17 @@ import * as React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
 
+const qs = require('qs');
+
 
 interface EditPropertyDetailsProps {
   match: {
     params: {
-      todoId: string
+      propertyId: string
     }
   }
-  auth: Auth
+  auth: Auth,
+  addressDetailsInQuery: string
 }
 
 interface EditPropertyDetailsState {
@@ -31,8 +34,12 @@ export class EditPropertyDetails extends React.PureComponent<
 
     constructor(props : EditPropertyDetailsProps) {
         super(props)
-        // Load property details from DB
-        // Set the properties
+        const addressParameters = qs.parse(props.addressDetailsInQuery);
+        this.state.address = addressParameters["address"];
+        this.state.price = addressParameters["price"];
+        this.state.tax = addressParameters["tax"];
+        this.state.fees = addressParameters["fees"];
+        // console.log("***** " + this.state.address);
     }
     
 
@@ -48,11 +55,10 @@ export class EditPropertyDetails extends React.PureComponent<
         <h1>Edit Property Details</h1>
 
         <Form onSubmit={this.handleSubmit}>
-          <label>Address</label><input value="451 Kansas St"></input>
-          <label>Price</label><input></input>
-          <label>Fees</label><input></input>
-          <label>Tax</label><input></input>
-
+          <label>Address</label><input value={this.state.address}></input>
+          <label>Price</label><input value={this.state.price}></input>
+          <label>Fees</label><input value={this.state.fees}></input>
+          <label>Tax</label><input value={this.state.tax}></input>
 
           {this.renderButton()}
         </Form>

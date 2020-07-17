@@ -7,6 +7,7 @@
     "dateformat": "^3.0.3",
     "immutability-helper": "^3.0.1",
     "mortgage-calculate": "0.0.1",
+    "qs": "^6.9.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",

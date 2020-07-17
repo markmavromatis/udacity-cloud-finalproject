@@ -18,6 +18,8 @@ import { createProperty, deleteProperty, getProperties, patchProperty } from '..
 import Auth from '../auth/Auth'
 import { Property } from '../types/Property'
 
+const mortgageCalculate = require('mortgage-calculate');
+
 interface PropertiesProps {
   auth: Auth
   history: History
@@ -40,8 +42,8 @@ export class Properties extends React.PureComponent<PropertiesProps, PropertiesS
 //     this.setState({ newTodoName: event.target.value })
 //   }
 
-onEditDetailsButtonClick = (propertyId: string) => {
-  this.props.history.push(`/properties/${propertyId}/editDetails`)
+onEditDetailsButtonClick = (propertyId: string, address: string, price: number, tax: number, fees: number) => {
+  this.props.history.push(`/properties/${propertyId}/editDetails?address=${address}&price=${price}&tax=${tax}&fees=${fees}`)
 }
 
 onEditImageButtonClick = (propertyId: string) => {
@@ -188,10 +190,15 @@ onEditImageButtonClick = (propertyId: string) => {
                 {property.tax}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
+                {Math.round(mortgageCalculate(
+                  {loanAmount: 100000, APR: 4.7, termYears: 30}
+                  ).monthlyPayment * 100) / 100}
+              </Grid.Column>
+              <Grid.Column width={1} floated="right">
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.onEditDetailsButtonClick(property.propertyId)}
+                  onClick={() => this.onEditDetailsButtonClick(property.propertyId, property.address, property.price, property.tax, property.fees)}
                 >
                   <Icon name="pencil" />
                 </Button>
