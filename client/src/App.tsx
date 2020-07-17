@@ -3,8 +3,8 @@ import { Link, Route, Router, Switch } from 'react-router-dom'
 import { Grid, Menu, Segment } from 'semantic-ui-react'
 
 import Auth from './auth/Auth'
-import { EditProperty } from './components/EditProperty'
-import { EditTodo } from './components/EditTodo'
+import { EditPropertyDetails } from './components/EditPropertyDetails'
+import { EditPropertyImage } from './components/EditPropertyImage'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
 // import { Todos } from './components/Todos'
@@ -99,12 +99,21 @@ export default class App extends Component<AppProps, AppState> {
         />
 
         <Route
-          path="/properties/:propertyId/edit"
+          path="/properties/:propertyId/editImage"
           exact
           render={props => {
-            return <EditProperty {...props} auth={this.props.auth} />
+            return <EditPropertyImage {...props} auth={this.props.auth} />
           }}
         />
+
+        <Route
+          path="/properties/:propertyId/editDetails"
+          exact
+          render={props => {
+            return <EditPropertyDetails {...props} auth={this.props.auth} />
+          }}
+        />
+
 
         <Route component={NotFound} />
       </Switch>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
-import { getUploadUrl, uploadFile } from '../api/todos-api'
+import { getUploadUrl, uploadFile } from '../api/properties-api'
 
 enum UploadState {
   NoUpload,
@@ -9,7 +9,7 @@ enum UploadState {
   UploadingFile,
 }
 
-interface EditTodoProps {
+interface EditPropertyImageProps {
   match: {
     params: {
       todoId: string
@@ -18,16 +18,16 @@ interface EditTodoProps {
   auth: Auth
 }
 
-interface EditTodoState {
+interface EditPropertyImageState {
   file: any
   uploadState: UploadState
 }
 
-export class EditTodo extends React.PureComponent<
-  EditTodoProps,
-  EditTodoState
+export class EditPropertyImage extends React.PureComponent<
+  EditPropertyImageProps,
+  EditPropertyImageState
 > {
-  state: EditTodoState = {
+  state: EditPropertyImageState = {
     file: undefined,
     uploadState: UploadState.NoUpload
   }
@@ -73,11 +73,11 @@ export class EditTodo extends React.PureComponent<
   render() {
     return (
       <div>
-        <h1>Upload new image</h1>
+        <h1>Edit Property Details</h1>
 
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
-            <label>File</label>
+            <label>Image Attachment</label>
             <input
               type="file"
               accept="image/*"

@@ -40,8 +40,12 @@ export class Properties extends React.PureComponent<PropertiesProps, PropertiesS
 //     this.setState({ newTodoName: event.target.value })
 //   }
 
-  onEditButtonClick = (propertyId: string) => {
-    this.props.history.push(`/properties/${propertyId}/edit`)
+onEditDetailsButtonClick = (propertyId: string) => {
+  this.props.history.push(`/properties/${propertyId}/editDetails`)
+}
+
+onEditImageButtonClick = (propertyId: string) => {
+    this.props.history.push(`/properties/${propertyId}/editImage`)
   }
 
 //   onTodoCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
@@ -106,7 +110,7 @@ export class Properties extends React.PureComponent<PropertiesProps, PropertiesS
   render() {
     return (
       <div>
-        <Header as="h1">TODOs</Header>
+        <Header as="h1">Properties</Header>
 
         {this.renderProperties()}
       </div>
@@ -171,7 +175,7 @@ export class Properties extends React.PureComponent<PropertiesProps, PropertiesS
               <Grid.Column width={3} verticalAlign="middle">
                 {property.address}
               </Grid.Column>
-              <Grid.Column width={3} verticalAlign="middle">
+              <Grid.Column width={1} verticalAlign="middle">
                 {property.neighborhood}
               </Grid.Column>
               <Grid.Column width={2} floated="right">
@@ -187,7 +191,16 @@ export class Properties extends React.PureComponent<PropertiesProps, PropertiesS
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.onEditButtonClick(property.propertyId)}
+                  onClick={() => this.onEditDetailsButtonClick(property.propertyId)}
+                >
+                  <Icon name="pencil" />
+                </Button>
+              </Grid.Column>
+              <Grid.Column width={1} floated="right">
+                <Button
+                  icon
+                  color="blue"
+                  onClick={() => this.onEditImageButtonClick(property.propertyId)}
                 >
                   <Icon name="pencil" />
                 </Button>
