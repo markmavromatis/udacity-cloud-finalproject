@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "property",
+    "type": "object",
+    "properties": {
+      "address": {
+        "type": "string"
+      },
+      "neighborhood": {
+        "type": "string"
+      },
+      "price": {
+        "type": "number"
+      },
+      "fees": {
+        "type": "number"
+      },
+      "tax": {
+        "type": "number"
+      }
+    },
+    "required": [
+      "name"
+    ],
+    "additionalProperties": false
+  }
+  
