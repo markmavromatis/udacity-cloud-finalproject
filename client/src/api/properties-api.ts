@@ -1,11 +1,10 @@
 import { apiEndpoint } from '../config'
 import { Property } from '../types/Property';
-import { CreateTodoRequest } from '../types/CreateTodoRequest';
 import Axios from 'axios'
-import { UpdateTodoRequest } from '../types/UpdateTodoRequest';
+import { CreateUpdatePropertyRequest } from '../types/CreateUpdatePropertyRequest';
 
 export async function getProperties(idToken: string): Promise<Property[]> {
-  console.log('Fetching todos')
+  console.log('Fetching properties')
 
   // const response = await Axios.get(`${apiEndpoint}/todos`, {
   //   headers: {
@@ -24,9 +23,9 @@ export async function getProperties(idToken: string): Promise<Property[]> {
 
 export async function createProperty(
   idToken: string,
-  newTodo: CreateTodoRequest
+  newProperty: CreateUpdatePropertyRequest
 ): Promise<Property> {
-  const response = await Axios.post(`${apiEndpoint}/todos`,  JSON.stringify(newTodo), {
+  const response = await Axios.post(`${apiEndpoint}/todos`,  JSON.stringify(newProperty), {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
@@ -38,7 +37,7 @@ export async function createProperty(
 export async function patchProperty(
   idToken: string,
   propertyId: string,
-  updatedProperty: UpdateTodoRequest
+  updatedProperty: CreateUpdatePropertyRequest
 ): Promise<void> {
   await Axios.patch(`${apiEndpoint}/todos/${propertyId}`, JSON.stringify(updatedProperty), {
     headers: {

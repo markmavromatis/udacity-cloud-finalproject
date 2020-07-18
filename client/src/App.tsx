@@ -7,7 +7,6 @@ import { CreateEditPropertyDetails } from './components/CreateEditPropertyDetail
 import { EditPropertyImage } from './components/EditPropertyImage'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
-// import { Todos } from './components/Todos'
 import { Properties } from './components/Properties'
 
 export interface AppProps {}
