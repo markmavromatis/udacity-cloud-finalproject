@@ -5,7 +5,7 @@ import Auth from '../auth/Auth'
 const qs = require('qs');
 
 
-interface EditPropertyDetailsProps {
+interface CreateEditPropertyDetailsProps {
   match: {
     params: {
       propertyId: string
@@ -15,30 +15,39 @@ interface EditPropertyDetailsProps {
   addressDetailsInQuery: string
 }
 
-interface EditPropertyDetailsState {
+interface CreateEditPropertyDetailsState {
     address: string,
     price: number,
     tax: number,
-    fees: number
+    fees: number,
+    isCreateMode: boolean
 }
 
-export class EditPropertyDetails extends React.PureComponent<
-    EditPropertyDetailsProps,
-    EditPropertyDetailsState> {
-  state: EditPropertyDetailsState = {
+export class CreateEditPropertyDetails extends React.PureComponent<
+    CreateEditPropertyDetailsProps,
+    CreateEditPropertyDetailsState> {
+  state: CreateEditPropertyDetailsState = {
     address: "",
     price: 0,
     tax: 0,
-    fees: 0  
+    fees: 0,
+    isCreateMode: false
     }
 
-    constructor(props : EditPropertyDetailsProps) {
+    constructor(props : CreateEditPropertyDetailsProps) {
         super(props)
-        const addressParameters = qs.parse(props.addressDetailsInQuery);
-        this.state.address = addressParameters["address"];
-        this.state.price = addressParameters["price"];
-        this.state.tax = addressParameters["tax"];
-        this.state.fees = addressParameters["fees"];
+        if (props.addressDetailsInQuery == "") {
+          // We are creating a new property.
+          this.state.isCreateMode = true
+        } else {
+          this.state.isCreateMode = false
+          const addressParameters = qs.parse(props.addressDetailsInQuery);
+          this.state.address = addressParameters["address"];
+          this.state.price = addressParameters["price"];
+          this.state.tax = addressParameters["tax"];
+          this.state.fees = addressParameters["fees"];
+        }
+
         // console.log("***** " + this.state.address);
     }
     
@@ -52,7 +61,7 @@ export class EditPropertyDetails extends React.PureComponent<
   render() {
     return (
       <div>
-        <h1>Edit Property Details</h1>
+        <h1>{this.state.isCreateMode ? "Create New Property" : "Edit Property Details"}</h1>
 
         <Form onSubmit={this.handleSubmit}>
           <label>Address</label><input value={this.state.address}></input>

@@ -3,7 +3,7 @@ import { Link, Route, Router, Switch } from 'react-router-dom'
 import { Grid, Menu, Segment } from 'semantic-ui-react'
 
 import Auth from './auth/Auth'
-import { EditPropertyDetails } from './components/EditPropertyDetails'
+import { CreateEditPropertyDetails } from './components/CreateEditPropertyDetails'
 import { EditPropertyImage } from './components/EditPropertyImage'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
@@ -23,8 +23,13 @@ export default class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props)
 
+    this.handleAddProperty = this.handleAddProperty.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  handleAddProperty() {
+    this.props.history.push(`/addProperty`)
   }
 
   handleLogin() {
@@ -62,6 +67,8 @@ export default class App extends Component<AppProps, AppState> {
           <Link to="/">Home</Link>
         </Menu.Item>
 
+        <Menu.Menu position="left">{this.addPropertyButton()}</Menu.Menu>
+
         <Menu.Menu position="right">{this.logInLogOutButton()}</Menu.Menu>
       </Menu>
     )
@@ -83,6 +90,15 @@ export default class App extends Component<AppProps, AppState> {
     }
   }
 
+  addPropertyButton() {
+    if (this.props.auth.isAuthenticated()) {
+      return (
+        <Menu.Item name="addProperty" onClick={this.handleAddProperty}>
+          Add Property
+        </Menu.Item>
+      )
+    }
+  }
   generateCurrentPage() {
     if (!this.props.auth.isAuthenticated()) {
       return <LogIn auth={this.props.auth} />
@@ -99,6 +115,14 @@ export default class App extends Component<AppProps, AppState> {
         />
 
         <Route
+          path="/addProperty"
+          exact
+          render={props => {
+            return <CreateEditPropertyDetails {...props} auth={this.props.auth} addressDetailsInQuery={""}/>
+          }}
+        />
+
+        <Route
           path="/properties/:propertyId/editImage"
           exact
           render={props => {
@@ -110,7 +134,7 @@ export default class App extends Component<AppProps, AppState> {
           path="/properties/:propertyId/editDetails"
           exact
           render={props => {
-            return <EditPropertyDetails {...props} auth={this.props.auth} addressDetailsInQuery={location.search.substring(1)}/>
+            return <CreateEditPropertyDetails {...props} auth={this.props.auth} addressDetailsInQuery={location.search.substring(1)}/>
           }}
         />
 
