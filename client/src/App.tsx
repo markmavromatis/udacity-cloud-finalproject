@@ -117,7 +117,7 @@ export default class App extends Component<AppProps, AppState> {
           path="/addProperty"
           exact
           render={props => {
-            return <CreateEditPropertyDetails {...props} auth={this.props.auth} addressDetailsInQuery={""}/>
+            return <CreateEditPropertyDetails {...props} auth={this.props.auth} history={this.props.history} addressDetailsInQuery={""}/>
           }}
         />
 
@@ -125,7 +125,7 @@ export default class App extends Component<AppProps, AppState> {
           path="/properties/:propertyId/editImage"
           exact
           render={props => {
-            return <EditPropertyImage {...props} auth={this.props.auth} />
+            return <EditPropertyImage {...props} auth={this.props.auth} history={this.props.history}/>
           }}
         />
 

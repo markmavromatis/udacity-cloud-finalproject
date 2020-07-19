@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
+import { History } from 'history'
 import { getUploadUrl, uploadFile } from '../api/properties-api'
 
 enum UploadState {
@@ -16,6 +17,7 @@ interface EditPropertyImageProps {
     }
   }
   auth: Auth
+  history: History
 }
 
 interface EditPropertyImageState {
@@ -41,6 +43,11 @@ export class EditPropertyImage extends React.PureComponent<
     })
   }
 
+  onCancel = () => {
+      // Redirect to main properties page
+      this.props.history.push(`/`)
+  }
+  
   handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault()
 
@@ -73,7 +80,7 @@ export class EditPropertyImage extends React.PureComponent<
   render() {
     return (
       <div>
-        <h1>Edit Property Details</h1>
+        <h1>Update Property Image</h1>
 
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
@@ -98,6 +105,7 @@ export class EditPropertyImage extends React.PureComponent<
       <div>
         {this.state.uploadState === UploadState.FetchingPresignedUrl && <p>Uploading image metadata</p>}
         {this.state.uploadState === UploadState.UploadingFile && <p>Uploading file</p>}
+        <Button type="button" onClick={() => this.onCancel()}>Cancel</Button>
         <Button
           loading={this.state.uploadState !== UploadState.NoUpload}
           type="submit"

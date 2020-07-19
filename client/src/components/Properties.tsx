@@ -128,20 +128,28 @@ onEditImageButtonClick = (propertyId: string) => {
 
   renderPropertiesList() {
     return (
-      <Grid padded>
+      <Grid padded celled>
+        <Grid.Row key="header">
+          <Grid.Column width={4}>Address</Grid.Column>
+          <Grid.Column width={4}>Neighborhood</Grid.Column>
+          <Grid.Column width={2}>Price</Grid.Column>
+          <Grid.Column width={1}>Fees</Grid.Column>
+          <Grid.Column width={1}>Tax</Grid.Column>
+          <Grid.Column width={1}>Monthly</Grid.Column>
+          <Grid.Column width={3}>Button1</Grid.Column>
+        </Grid.Row>
         {this.state.properties.map((property, pos) => {
           return (
+
             <Grid.Row key={property.propertyId}>
-              <Grid.Column width={1} verticalAlign="middle">
-                {/* <Checkbox
-                  onChange={() => this.onTodoCheck(pos)}
-                  checked={todo.done}
-                /> */}
-              </Grid.Column>
-              <Grid.Column width={3} verticalAlign="middle">
+              <Grid.Column width={4} verticalAlign="top">
                 {property.address}
+                {property.attachmentUrl && (<br></br>)}
+                {property.attachmentUrl && (
+                <Image src={property.attachmentUrl} size="small" wrapped />
+                )}
               </Grid.Column>
-              <Grid.Column width={1} verticalAlign="middle">
+              <Grid.Column width={4} verticalAlign="top">
                 {property.neighborhood}
               </Grid.Column>
               <Grid.Column width={2} floated="right">
@@ -158,7 +166,7 @@ onEditImageButtonClick = (propertyId: string) => {
                   {loanAmount: 100000, APR: 4.7, termYears: 30}
                   ).monthlyPayment * 100) / 100}
               </Grid.Column>
-              <Grid.Column width={1} floated="right">
+              <Grid.Column width={3} floated="right">
                 <Button
                   icon
                   color="blue"
@@ -166,17 +174,13 @@ onEditImageButtonClick = (propertyId: string) => {
                 >
                   <Icon name="pencil" />
                 </Button>
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
                 <Button
                   icon
                   color="blue"
                   onClick={() => this.onEditImageButtonClick(property.propertyId)}
                 >
-                  <Icon name="pencil" />
+                  <Icon name="image" />
                 </Button>
-              </Grid.Column>
-              <Grid.Column width={1} floated="right">
                 <Button
                   icon
                   color="red"
@@ -184,12 +188,6 @@ onEditImageButtonClick = (propertyId: string) => {
                 >
                   <Icon name="delete" />
                 </Button>
-              </Grid.Column>
-              {property.attachmentUrl && (
-                <Image src={property.attachmentUrl} size="small" wrapped />
-              )}
-              <Grid.Column width={16}>
-                <Divider />
               </Grid.Column>
             </Grid.Row>
           )
