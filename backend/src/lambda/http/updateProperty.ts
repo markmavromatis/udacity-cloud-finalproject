@@ -18,7 +18,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   logger.info(`${requestId} Entering UpdateProperty service...`)
 
   const propertyId = event.pathParameters.propertyId
-  logger.info(`${requestId} Updated Propery record: ${propertyId}`)
+  logger.info(`${requestId} Updated Property record: ${propertyId}`)
 
   const updatedProperty: CreateUpdatePropertyRequest = JSON.parse(event.body)
   logger.info(`${requestId} Updated fields: ${JSON.stringify(updatedProperty)}`)
