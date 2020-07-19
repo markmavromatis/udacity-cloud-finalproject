@@ -23,6 +23,15 @@ export const handler = middy(
     const newProperty: CreateUpdatePropertyRequest = JSON.parse(event.body)
     logger.info(`${requestId} Creating new Property item: ${JSON.stringify(newProperty)}`)
 
+    if (newProperty == null || newProperty.address == null || newProperty.price == null || newProperty.fees == null || 
+        newProperty.neighborhood == null || newProperty.tax == null) {
+      return {
+        statusCode: 400,
+        body: "address, neighborhood, price, fees, tax are all required fields!"
+      }
+            
+    }
+
     // Retrieve User ID from Authorization header
     const userId = getUserIdFromAuthorizationHeader(event);
 
