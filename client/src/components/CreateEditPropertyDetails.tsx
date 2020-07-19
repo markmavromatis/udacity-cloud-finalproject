@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
+import { History } from 'history'
 import { createProperty, patchProperty } from '../api/properties-api'
 
 const qs = require('qs');
@@ -13,6 +14,7 @@ interface CreateEditPropertyDetailsProps {
     }
   }
   auth: Auth,
+  history: History,
   addressDetailsInQuery: string
 }
 
@@ -78,16 +80,16 @@ export class CreateEditPropertyDetails extends React.PureComponent<
     if (tax == 0 || isNaN(tax)) {
       alert("Tax is a required field!");
     }
-    const fee = parseInt((document.getElementById("fee") as HTMLInputElement).value);
-    if (fee == 0 || isNaN(fee)) {
-      alert("Fee is a required field!");
+    const fees = parseInt((document.getElementById("fees") as HTMLInputElement).value);
+    if (fees == 0 || isNaN(fees)) {
+      alert("Fees is a required field!");
     }
 
     console.log("Address: " + address);
     console.log("Neighborhood: " + neighborhood);
     console.log("Price: " + price);
     console.log("Tax: " + tax);
-    console.log("Fee: " + fee);
+    console.log("Fees: " + fees);
     // console.log("Is blank? " + (address.length == 0));
 
     // Update DB here
@@ -96,20 +98,18 @@ export class CreateEditPropertyDetails extends React.PureComponent<
     } else {
       console.log("Editing existing property...");
       try {
-        // await patchProperty(this.props.auth.getIdToken(), this.props.match.params.propertyId, {
-        //   address: address,
-        //   neighborhood: neighborhood,
-        //   price: price,
-        //   fees: fee,
-        //   tax: tax
-        // })
-        // this.setState({
-        //   todos: update(this.state.todos, {
-        //     [pos]: { done: { $set: !todo.done } }
-        //   })
-        // })
-      } catch {
-        alert('Property Update failed')
+        await patchProperty(this.props.auth.getIdToken(), this.props.match.params.propertyId, {
+          address: address,
+          neighborhood: neighborhood,
+          price: price,
+          fees: fees,
+          tax: tax
+        })
+        // Redirect to main properties page
+        this.props.history.push(`/`)
+
+      } catch (err) {
+        alert('Property Update failed: ' + err);
       }
     }
   }

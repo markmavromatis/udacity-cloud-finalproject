@@ -133,7 +133,7 @@ export default class App extends Component<AppProps, AppState> {
           path="/properties/:propertyId/editDetails"
           exact
           render={props => {
-            return <CreateEditPropertyDetails {...props} auth={this.props.auth} addressDetailsInQuery={location.search.substring(1)}/>
+            return <CreateEditPropertyDetails {...props} auth={this.props.auth} history={this.props.history} addressDetailsInQuery={location.search.substring(1)}/>
           }}
         />
 
