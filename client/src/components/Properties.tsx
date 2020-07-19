@@ -50,22 +50,6 @@ onEditImageButtonClick = (propertyId: string) => {
     this.props.history.push(`/properties/${propertyId}/editImage`)
   }
 
-//   onTodoCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
-//     try {
-//       const dueDate = this.calculateDueDate()
-//       const newTodo = await createTodo(this.props.auth.getIdToken(), {
-//         name: this.state.newTodoName,
-//         dueDate
-//       })
-//       this.setState({
-//         todos: [...this.state.todos, newTodo],
-//         newTodoName: ''
-//       })
-//     } catch {
-//       alert('Todo creation failed')
-//     }
-//   }
-
   onPropertyDelete = async (propertyId: string) => {
     try {
       await deleteProperty(this.props.auth.getIdToken(), propertyId)
@@ -77,24 +61,6 @@ onEditImageButtonClick = (propertyId: string) => {
     }
   }
 
-//   onTodoCheck = async (pos: number) => {
-//     try {
-//       const todo = this.state.todos[pos]
-//       await patchTodo(this.props.auth.getIdToken(), todo.todoId, {
-//         name: todo.name,
-//         dueDate: todo.dueDate,
-//         done: !todo.done
-//       })
-//       this.setState({
-//         todos: update(this.state.todos, {
-//           [pos]: { done: { $set: !todo.done } }
-//         })
-//       })
-//     } catch {
-//       alert('Todo deletion failed')
-//     }
-//   }
-
   async componentDidMount() {
     try {
       const properties = await getProperties(this.props.auth.getIdToken())
@@ -102,8 +68,6 @@ onEditImageButtonClick = (propertyId: string) => {
         properties,
         loadingProperties: false
       })
-      console.log("*** PROPERTIES")
-      console.log(JSON.stringify(properties));
     } catch (e) {
       alert(`Failed to fetch todos: ${e.message}`)
     }
@@ -181,13 +145,13 @@ onEditImageButtonClick = (propertyId: string) => {
                 {property.neighborhood}
               </Grid.Column>
               <Grid.Column width={2} floated="right">
-                {property.price}
+                {property.price.toLocaleString()}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
-                {property.fees}
+                {property.fees.toLocaleString()}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
-                {property.tax}
+                {property.tax.toLocaleString()}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
                 {Math.round(mortgageCalculate(

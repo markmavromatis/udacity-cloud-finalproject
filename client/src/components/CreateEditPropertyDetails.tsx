@@ -3,6 +3,7 @@ import { Form, Button } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
 import { History } from 'history'
 import { createProperty, patchProperty } from '../api/properties-api'
+import { create } from 'domain'
 
 const qs = require('qs');
 
@@ -85,19 +86,26 @@ export class CreateEditPropertyDetails extends React.PureComponent<
       alert("Fees is a required field!");
     }
 
-    console.log("Address: " + address);
-    console.log("Neighborhood: " + neighborhood);
-    console.log("Price: " + price);
-    console.log("Tax: " + tax);
-    console.log("Fees: " + fees);
+    // console.log("Address: " + address);
+    // console.log("Neighborhood: " + neighborhood);
+    // console.log("Price: " + price);
+    // console.log("Tax: " + tax);
+    // console.log("Fees: " + fees);
     // console.log("Is blank? " + (address.length == 0));
 
-    // Update DB here
-    if (this.state.isCreateMode) {
-      console.log("Creating new property...");
-    } else {
-      console.log("Editing existing property...");
-      try {
+    try {
+      // Update DB here
+      if (this.state.isCreateMode) {
+        console.log("Creating new property...");
+        await createProperty(this.props.auth.getIdToken(), {
+          address: address,
+          neighborhood: neighborhood,
+          price: price,
+          fees: fees,
+          tax: tax
+        })
+      } else {
+        console.log("Editing existing property...");
         await patchProperty(this.props.auth.getIdToken(), this.props.match.params.propertyId, {
           address: address,
           neighborhood: neighborhood,
@@ -105,12 +113,12 @@ export class CreateEditPropertyDetails extends React.PureComponent<
           fees: fees,
           tax: tax
         })
-        // Redirect to main properties page
-        this.props.history.push(`/`)
-
-      } catch (err) {
-        alert('Property Update failed: ' + err);
       }
+      // Redirect to main properties page
+      this.props.history.push(`/`)
+
+    } catch (err) {
+      alert('Property Update failed: ' + err);
     }
   }
 
