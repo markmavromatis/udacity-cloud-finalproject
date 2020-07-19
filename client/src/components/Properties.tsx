@@ -42,8 +42,8 @@ export class Properties extends React.PureComponent<PropertiesProps, PropertiesS
 //     this.setState({ newTodoName: event.target.value })
 //   }
 
-onEditDetailsButtonClick = (propertyId: string, address: string, price: number, tax: number, fees: number) => {
-  this.props.history.push(`/properties/${propertyId}/editDetails?address=${address}&price=${price}&tax=${tax}&fees=${fees}`)
+onEditDetailsButtonClick = (propertyId: string, address: string, neighborhood: string, price: number, tax: number, fees: number) => {
+  this.props.history.push(`/properties/${propertyId}/editDetails?address=${address}&neighborhood=${neighborhood}&price=${price}&tax=${tax}&fees=${fees}`)
 }
 
 onEditImageButtonClick = (propertyId: string) => {
@@ -198,7 +198,7 @@ onEditImageButtonClick = (propertyId: string) => {
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.onEditDetailsButtonClick(property.propertyId, property.address, property.price, property.tax, property.fees)}
+                  onClick={() => this.onEditDetailsButtonClick(property.propertyId, property.address, property.neighborhood, property.price, property.tax, property.fees)}
                 >
                   <Icon name="pencil" />
                 </Button>

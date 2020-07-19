@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
+import { createProperty, patchProperty } from '../api/properties-api'
 
 const qs = require('qs');
 
@@ -17,6 +18,7 @@ interface CreateEditPropertyDetailsProps {
 
 interface CreateEditPropertyDetailsState {
     address: string,
+    neighborhood: string,
     price: number,
     tax: number,
     fees: number,
@@ -28,6 +30,7 @@ export class CreateEditPropertyDetails extends React.PureComponent<
     CreateEditPropertyDetailsState> {
   state: CreateEditPropertyDetailsState = {
     address: "",
+    neighborhood: "",
     price: 0,
     tax: 0,
     fees: 0,
@@ -43,18 +46,72 @@ export class CreateEditPropertyDetails extends React.PureComponent<
           this.state.isCreateMode = false
           const addressParameters = qs.parse(props.addressDetailsInQuery);
           this.state.address = addressParameters["address"];
+          this.state.neighborhood = addressParameters["neighborhood"];
           this.state.price = addressParameters["price"];
           this.state.tax = addressParameters["tax"];
           this.state.fees = addressParameters["fees"];
         }
-
+        console.log("PROPERTY ID: " + props.match.params.propertyId);
         // console.log("***** " + this.state.address);
     }
     
 
   handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault()
+
+    // Validate fields
+    const address : string = (document.getElementById("address") as HTMLInputElement).value;
+    if (address.length == 0) {
+      alert("Address is a required field!");
+      return
+    }
+    const neighborhood : string = (document.getElementById("neighborhood") as HTMLInputElement).value;
+    if (neighborhood.length == 0) {
+      alert("Neighborhood is a required field!");
+      return
+    }
+    const price = parseInt((document.getElementById("price") as HTMLInputElement).value);
+    if (price == 0 || isNaN(price)) {
+      alert("Price is a required field!");
+    }
+    const tax = parseInt((document.getElementById("tax") as HTMLInputElement).value);
+    if (tax == 0 || isNaN(tax)) {
+      alert("Tax is a required field!");
+    }
+    const fee = parseInt((document.getElementById("fee") as HTMLInputElement).value);
+    if (fee == 0 || isNaN(fee)) {
+      alert("Fee is a required field!");
+    }
+
+    console.log("Address: " + address);
+    console.log("Neighborhood: " + neighborhood);
+    console.log("Price: " + price);
+    console.log("Tax: " + tax);
+    console.log("Fee: " + fee);
+    // console.log("Is blank? " + (address.length == 0));
+
     // Update DB here
+    if (this.state.isCreateMode) {
+      console.log("Creating new property...");
+    } else {
+      console.log("Editing existing property...");
+      try {
+        // await patchProperty(this.props.auth.getIdToken(), this.props.match.params.propertyId, {
+        //   address: address,
+        //   neighborhood: neighborhood,
+        //   price: price,
+        //   fees: fee,
+        //   tax: tax
+        // })
+        // this.setState({
+        //   todos: update(this.state.todos, {
+        //     [pos]: { done: { $set: !todo.done } }
+        //   })
+        // })
+      } catch {
+        alert('Property Update failed')
+      }
+    }
   }
 
 
@@ -64,10 +121,11 @@ export class CreateEditPropertyDetails extends React.PureComponent<
         <h1>{this.state.isCreateMode ? "Create New Property" : "Edit Property Details"}</h1>
 
         <Form onSubmit={this.handleSubmit}>
-          <label>Address</label><input value={this.state.address}></input>
-          <label>Price</label><input value={this.state.price}></input>
-          <label>Fees</label><input value={this.state.fees}></input>
-          <label>Tax</label><input value={this.state.tax}></input>
+          <label>Address</label><input id="address" defaultValue={this.state.address}></input>
+          <label>Neighborhood</label><input id="neighborhood" defaultValue={this.state.neighborhood}></input>
+          <label>Price</label><input id="price" defaultValue={this.state.price.toString()}></input>
+          <label>Fees</label><input id="fees" defaultValue={this.state.fees.toString()}></input>
+          <label>Tax</label><input id="tax" defaultValue={this.state.tax.toString()}></input>
 
           {this.renderButton()}
         </Form>
@@ -87,4 +145,6 @@ export class CreateEditPropertyDetails extends React.PureComponent<
       </div>
     )
   }
+
+
 }

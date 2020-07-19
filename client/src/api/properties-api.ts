@@ -6,26 +6,21 @@ import { CreateUpdatePropertyRequest } from '../types/CreateUpdatePropertyReques
 export async function getProperties(idToken: string): Promise<Property[]> {
   console.log('Fetching properties')
 
-  // const response = await Axios.get(`${apiEndpoint}/todos`, {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': `Bearer ${idToken}`
-  //   },
-  // })
-  // let response = {};
-  // response["data"] = [{}];
-  let properties : Property[] = []
-  properties.push({propertyId: "1", createdAt: (new Date()).toISOString(), address: "524 Manhattan Ave 2B",
-  neighborhood: "Greenpoint", price: 1299999, fees: 850, tax: 1000, attachmentUrl: undefined})
+  const response = await Axios.get(`${apiEndpoint}/properties`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+  })
   
-  return properties
+  return response.data.items
 }
 
 export async function createProperty(
   idToken: string,
   newProperty: CreateUpdatePropertyRequest
 ): Promise<Property> {
-  const response = await Axios.post(`${apiEndpoint}/todos`,  JSON.stringify(newProperty), {
+  const response = await Axios.post(`${apiEndpoint}/properties`,  JSON.stringify(newProperty), {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
@@ -39,7 +34,7 @@ export async function patchProperty(
   propertyId: string,
   updatedProperty: CreateUpdatePropertyRequest
 ): Promise<void> {
-  await Axios.patch(`${apiEndpoint}/todos/${propertyId}`, JSON.stringify(updatedProperty), {
+  await Axios.patch(`${apiEndpoint}/properties/${propertyId}`, JSON.stringify(updatedProperty), {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
