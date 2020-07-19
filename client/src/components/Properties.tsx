@@ -1,3 +1,4 @@
+import {calculateMonthlyPayment} from "../util/MortgageCalculator";
 import dateFormat from 'dateformat'
 import { History } from 'history'
 import update from 'immutability-helper'
@@ -136,7 +137,7 @@ onEditImageButtonClick = (propertyId: string) => {
           <Grid.Column width={1}>Fees</Grid.Column>
           <Grid.Column width={1}>Tax</Grid.Column>
           <Grid.Column width={1}>Monthly</Grid.Column>
-          <Grid.Column width={3}>Button1</Grid.Column>
+          <Grid.Column width={3}></Grid.Column>
         </Grid.Row>
         {this.state.properties.map((property, pos) => {
           return (
@@ -162,9 +163,7 @@ onEditImageButtonClick = (propertyId: string) => {
                 {property.tax.toLocaleString()}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
-                {Math.round(mortgageCalculate(
-                  {loanAmount: 100000, APR: 4.7, termYears: 30}
-                  ).monthlyPayment * 100) / 100}
+                {calculateMonthlyPayment(property, 500000, 3).toLocaleString()}
               </Grid.Column>
               <Grid.Column width={3} floated="right">
                 <Button
