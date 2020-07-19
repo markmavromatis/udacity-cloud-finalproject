@@ -24,6 +24,8 @@ const mortgageCalculate = require('mortgage-calculate');
 interface PropertiesProps {
   auth: Auth
   history: History
+  interestRate: string
+  downPayment: string
 }
 
 interface PropertiesState {
@@ -163,7 +165,7 @@ onEditImageButtonClick = (propertyId: string) => {
                 {property.tax.toLocaleString()}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
-                {calculateMonthlyPayment(property, 500000, 3).toLocaleString()}
+                {calculateMonthlyPayment(property, this.props.downPayment, this.props.interestRate).toLocaleString()}
               </Grid.Column>
               <Grid.Column width={3} floated="right">
                 <Button

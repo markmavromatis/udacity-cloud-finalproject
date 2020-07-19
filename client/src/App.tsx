@@ -3,32 +3,67 @@ import { Link, Route, Router, Switch } from 'react-router-dom'
 import { Grid, Menu, Segment } from 'semantic-ui-react'
 
 import Auth from './auth/Auth'
+import { History } from 'history'
 import { CreateEditPropertyDetails } from './components/CreateEditPropertyDetails'
 import { EditPropertyImage } from './components/EditPropertyImage'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
 import { Properties } from './components/Properties'
 
+
+const DEFAULT_DOWNPAYMENT = "500000"
+const DEFAULT_INTEREST_RATE = "3"
+
 export interface AppProps {}
 
 export interface AppProps {
   auth: Auth
-  history: any
+  history: History
 }
 
-export interface AppState {}
+export interface AppState {
+  interestRate: string
+  downPayment : string
+}
 
 export default class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props)
 
+
     this.handleAddProperty = this.handleAddProperty.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
+    this.handleInterestRateUpdate = this.handleInterestRateUpdate.bind(this);
+    this.handleDownPaymentUpdate = this.handleDownPaymentUpdate.bind(this);
+  }
+  async componentDidMount() {
+    try {
+      this.setState({
+        downPayment: DEFAULT_DOWNPAYMENT,
+        interestRate: DEFAULT_INTEREST_RATE      
+      })
+    } catch (e) {
+      alert(`Failed to fetch todos: ${e.message}`)
+    }
   }
 
   handleAddProperty() {
     this.props.history.push(`/addProperty`)
+  }
+
+  handleInterestRateUpdate() {
+    const interestRateInput = document.getElementById("interestRate") as HTMLInputElement
+    if (interestRateInput.value) {
+      this.setState({interestRate: interestRateInput.value})
+    }
+  }
+
+  handleDownPaymentUpdate() {
+    const downPaymentInput = document.getElementById("downPayment") as HTMLInputElement
+    if (downPaymentInput.value) {
+      this.setState({downPayment: downPaymentInput.value})
+    }
   }
 
   handleLogin() {
@@ -37,6 +72,10 @@ export default class App extends Component<AppProps, AppState> {
 
   handleLogout() {
     this.props.auth.logout()
+  }
+
+  handleRefresh() {
+    this.props.history.push("/");
   }
 
   render() {
@@ -67,6 +106,7 @@ export default class App extends Component<AppProps, AppState> {
         </Menu.Item>
 
         <Menu.Menu position="left">{this.addPropertyButton()}</Menu.Menu>
+        <Menu.Menu position="left">{this.addMortgageParameterControls()}</Menu.Menu>
 
         <Menu.Menu position="right">{this.logInLogOutButton()}</Menu.Menu>
       </Menu>
@@ -98,6 +138,22 @@ export default class App extends Component<AppProps, AppState> {
       )
     }
   }
+
+  addMortgageParameterControls() {
+    if (this.props.auth.isAuthenticated()) {
+      return (
+        <div>
+        <label>Mortgage Interest Rate:</label>
+        <input id="interestRate" type="text" defaultValue={DEFAULT_INTEREST_RATE} onChange={this.handleInterestRateUpdate}></input>
+        <label>Down Payment:</label>
+        <input id="downPayment" type="text" defaultValue={DEFAULT_DOWNPAYMENT} onChange={this.handleDownPaymentUpdate}></input>
+        <button onClick={() => this.handleRefresh()}>Refresh</button>
+        </div>
+      )
+    }
+
+  }
+
   generateCurrentPage() {
     if (!this.props.auth.isAuthenticated()) {
       return <LogIn auth={this.props.auth} />
@@ -109,7 +165,7 @@ export default class App extends Component<AppProps, AppState> {
           path="/"
           exact
           render={props => {
-            return <Properties {...props} auth={this.props.auth} />
+            return <Properties {...props} auth={this.props.auth} interestRate={this.state.interestRate} downPayment={this.state.downPayment}/>
           }}
         />
 
