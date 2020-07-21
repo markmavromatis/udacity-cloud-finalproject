@@ -130,17 +130,17 @@ onEditImageButtonClick = (propertyId: string) => {
               <Grid.Column width={4} verticalAlign="top">
                 {property.neighborhood}
               </Grid.Column>
-              <Grid.Column width={2} floated="right">
-                {property.price.toLocaleString()}
+              <Grid.Column width={2} floated="right" textAlign="right">
+                {"$" + property.price.toLocaleString()}
               </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                {property.fees.toLocaleString()}
+              <Grid.Column width={1} floated="right" textAlign="right">
+                {"$" + property.fees.toLocaleString()}
               </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                {property.tax.toLocaleString()}
+              <Grid.Column width={1} floated="right" textAlign="right">
+                {"$" + property.tax.toLocaleString()}
               </Grid.Column>
-              <Grid.Column width={1} floated="right">
-                {calculateMonthlyPayment(property, this.props.downPayment, this.props.interestRate).toLocaleString()}
+              <Grid.Column width={1} floated="right" textAlign="right">
+                {"$" + calculateMonthlyPayment(property, this.props.downPayment, this.props.interestRate).toLocaleString()}
               </Grid.Column>
               <Grid.Column width={3} floated="right">
                 <Button

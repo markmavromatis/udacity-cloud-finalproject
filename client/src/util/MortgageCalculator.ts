@@ -9,6 +9,7 @@ const mortgageCalculate = require('mortgage-calculate');
 // 4) Loan term
 // 5) Monthly (HOA) fees
 // 6) Monthly property tax
+// Result is rounded since the amount of cents is not significant
 export function calculateMonthlyPayment(property: Property,  downPaymentInput: string, rateInput: string) { 
     // console.log("Inside method calculateMonthlyPayment...")
     // console.log("\tProperty ID: " + property.propertyId)
@@ -18,7 +19,7 @@ export function calculateMonthlyPayment(property: Property,  downPaymentInput: s
     if (isNaN(downPayment) || isNaN(interestRate)) {
         return 0
     }
-    return (Math.round(mortgageCalculate(
+    return Math.round(mortgageCalculate(
         {loanAmount: property.price - downPayment, APR: interestRate, termYears: 30}
-        ).monthlyPayment * 100) / 100 + property.fees + property.tax)
+        ).monthlyPayment + property.fees + property.tax)
 }
