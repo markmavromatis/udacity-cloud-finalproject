@@ -31,3 +31,32 @@
     transform: rotate(360deg);
   }
 }
+
+.title {
+  font-size: 30px;
+  display: block;
+  text-align: center;
+}
+
+label.interestRate {
+  margin-left: 50px;
+}
+
+input.interestRateInput {
+  width: 50px;
+  text-align: right;
+  vertical-align: center;
+  margin-left: 20px;
+  margin-right: 50px;
+}
+
+input.downPaymentInput {
+  width: 100px;
+  text-align: right; 
+  margin-left: 20px;
+  margin-right: 100px;
+}
+
+.menuTextInputs {
+  align-items: center;
+}

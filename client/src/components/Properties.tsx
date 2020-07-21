@@ -86,31 +86,6 @@ onEditImageButtonClick = (propertyId: string) => {
     )
   }
 
-//   renderCreateTodoInput() {
-//     return (
-//       <Grid.Row>
-//         <Grid.Column width={16}>
-//           <Input
-//             action={{
-//               color: 'teal',
-//               labelPosition: 'left',
-//               icon: 'add',
-//               content: 'New task',
-//               onClick: this.onTodoCreate
-//             }}
-//             fluid
-//             actionPosition="left"
-//             placeholder="To change the world..."
-//             onChange={this.handleNameChange}
-//           />
-//         </Grid.Column>
-//         <Grid.Column width={16}>
-//           <Divider />
-//         </Grid.Column>
-//       </Grid.Row>
-//     )
-//   }
-
   renderProperties() {
     if (this.state.loadingProperties) {
       return this.renderLoading()

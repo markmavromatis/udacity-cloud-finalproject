@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Route, Router, Switch } from 'react-router-dom'
 import { Grid, Menu, Segment } from 'semantic-ui-react'
-
+import { Input } from 'semantic-ui-react'
 import Auth from './auth/Auth'
 import { History } from 'history'
 import { CreateEditPropertyDetails } from './components/CreateEditPropertyDetails'
@@ -9,7 +9,7 @@ import { EditPropertyImage } from './components/EditPropertyImage'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
 import { Properties } from './components/Properties'
-
+import './App.css';
 
 const DEFAULT_DOWNPAYMENT = "500000"
 const DEFAULT_INTEREST_RATE = "3"
@@ -74,14 +74,14 @@ export default class App extends Component<AppProps, AppState> {
     this.props.auth.logout()
   }
 
-  handleRefresh() {
-    this.props.history.push("/");
-  }
+  // handleRefresh() {
+  //   this.props.history.push("/");
+  // }
 
   render() {
     return (
       <div>
-        <Segment style={{ padding: '8em 0em' }} vertical>
+        <Segment style={{ padding: '1cm 0em' }} vertical>
           <Grid container stackable verticalAlign="middle">
             <Grid.Row>
               <Grid.Column width={16}>
@@ -106,7 +106,7 @@ export default class App extends Component<AppProps, AppState> {
         </Menu.Item>
 
         <Menu.Menu position="left">{this.addPropertyButton()}</Menu.Menu>
-        <Menu.Menu position="left">{this.addMortgageParameterControls()}</Menu.Menu>
+        <Menu.Menu className="menuTextInputs" position="left">{this.addMortgageParameterControls()}</Menu.Menu>
 
         <Menu.Menu position="right">{this.logInLogOutButton()}</Menu.Menu>
       </Menu>
@@ -142,12 +142,11 @@ export default class App extends Component<AppProps, AppState> {
   addMortgageParameterControls() {
     if (this.props.auth.isAuthenticated()) {
       return (
-        <div>
-        <label>Mortgage Interest Rate:</label>
-        <input id="interestRate" type="text" defaultValue={DEFAULT_INTEREST_RATE} onChange={this.handleInterestRateUpdate}></input>
+        <div className="menuTextInputs">
+        <label className="interestRate">Mortgage Interest Rate:</label>
+        <input id="interestRate" className="interestRateInput" type="text" defaultValue={DEFAULT_INTEREST_RATE} onChange={this.handleInterestRateUpdate} />
         <label>Down Payment:</label>
-        <input id="downPayment" type="text" defaultValue={DEFAULT_DOWNPAYMENT} onChange={this.handleDownPaymentUpdate}></input>
-        <button onClick={() => this.handleRefresh()}>Refresh</button>
+        <input id="downPayment" className="downPaymentInput" type="text" defaultValue={DEFAULT_DOWNPAYMENT} onChange={this.handleDownPaymentUpdate}/>
         </div>
       )
     }
